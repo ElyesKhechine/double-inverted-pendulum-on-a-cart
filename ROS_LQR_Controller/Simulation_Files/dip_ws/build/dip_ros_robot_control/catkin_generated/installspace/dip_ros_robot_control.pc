@@ -1,0 +1,8 @@
+prefix=/home/robotics/mushr_ws/install
+
+Name: dip_ros_robot_control
+Description: Description of dip_ros_robot_control
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -ldip_ros_robot_control
+Requires: controller_manager controller_interface hardware_interface roscpp pluginlib

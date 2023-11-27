@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Pendulum Simulation</title>
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+            const form = event.target;
+
+            const data = {};
+            for (const element of form.elements) {
+                if (element.tagName === 'INPUT' && element.name) {
+                    data[element.name] = parseFloat(element.value);
+                }
+            }
+
+            fetch('/run_simulation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                // Handle the received data here
+                console.log(result);
+                const url = `/results`;
+                window.location.href = "/results";
+                window.open(url, '_blank');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Double Pendulum Simulation</h1>
+    <form onsubmit="submitForm(event);">
+        <label for="x0">x0:</label>
+        <input type="number" step="any" id="x0" name="x0" value="-1" required><br>
+ 
+        <label for="xdot0">xdot0:</label>
+        <input type="number" step="any" id="xdot0" name="xdot0" value="0" required><br>
+ 
+        <label for="q10">q10:</label>
+        <input type="number" step="any" id="q10" name="q10" value="2" required><br>
+ 
+        <label for="q1dot0">q1dot0:</label>
+        <input type="number" step="any" id="q1dot0" name="q1dot0" value="0" required><br>
+      
+        <label for="q20">q20:</label>
+        <input type="number" step="any" id="q20" name="q20" value="0" required><br>
+      
+        <label for="q2dot0">q2dot0:</label>
+        <input type="number" step="any" id="q2dot0" name="q2dot0" value="0" required><br>
+      
+        <label for="xf">xf:</label>
+        <input type="number" step="any" id="xf" name="xf" value="1.7" required><br>
+      
+        <label for="xdotf">xdotf:</label>
+        <input type="number" step="any" id="xdotf" name="xdotf" value="0" required><br>
+      
+        <label for="q1f">q1f:</label>
+        <input type="number" step="any" id="q1f" name="q1f" value="0" required><br>
+      
+        <label for="q1dotf">q1dotf:</label>
+        <input type="number" step="any" id="q1dotf" name="q1dotf" value="0" required><br>
+      
+        <label for="q2f">q2f:</label>
+        <input type="number" step="any" id="q2f" name="q2f" value="0" required><br>
+      
+        <label for="q2dotf">q2dotf:</label>
+        <input type="number" step="any" id="q2dotf" name="q2dotf" value="0" required><br>
+      
+        <label for="xmin">xmin:</label>
+        <input type="number" step="any" id="xmin" name="xmin" value="-2" required><br>
+      
+        <label for="xmax">xmax:</label>
+        <input type="number" step="any" id="xmax" name="xmax" value="2" required><br>
+      
+        <label for="umin">umin:</label>
+        <input type="number" step="any" id="umin" name="umin" value="-10" required><br>
+      
+        <label for="umax">umax:</label>
+        <input type="number" step="any" id="umax" name="umax" value="10" required><br>
+      
+        <input type="submit" value="Run Simulation">
+      </form>
+
+      <form action="http://127.0.0.1:5000/results">
+        <input type="submit" value="Check the Results" />
+    </form>
+            
+</body>
+</html>

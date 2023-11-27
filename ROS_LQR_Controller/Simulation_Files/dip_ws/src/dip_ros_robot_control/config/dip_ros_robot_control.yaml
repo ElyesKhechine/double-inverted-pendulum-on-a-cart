@@ -1,0 +1,11 @@
+dip_ros_robot:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+  
+  # LQR Controller ---------------------------------------------
+  joint2_lqr_controller:
+    type: controller_ns/LQRController
+    underactuated: joint1
+    joint: joint2

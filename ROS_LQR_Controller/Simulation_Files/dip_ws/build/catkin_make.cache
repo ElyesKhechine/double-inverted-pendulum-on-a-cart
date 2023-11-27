@@ -1,0 +1,2 @@
+dip_ros_robot_control:dip_ros_robot_description:dip_ros_robot_gazebo
+-DCMAKE_BUILD_TYPE=Release -DCATKIN_DEVEL_PREFIX=/home/robotics/mushr_ws/devel -DCMAKE_INSTALL_PREFIX=/home/robotics/mushr_ws/install -G Unix Makefiles

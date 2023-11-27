@@ -1,0 +1,12 @@
+Install PyBullet Gymperium 0.15.3: https://github.com/benelot/pybullet-gym
+
+git clone https://github.com/openai/gym.git
+cd gym
+pip install -e .
+pip install gym==0.15.3
+
+git clone https://github.com/benelot/pybullet-gym.git
+cd pybullet-gym
+pip install -e .
+
+Make sure to add the project folder to the system's Python "Path" environment variable.

@@ -1,0 +1,4 @@
+Ubuntu 20.04: https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview
+ROS Noetic: http://wiki.ros.org/noetic/Installation
+Gazebo 11.11.0: https://classic.gazebosim.org/tutorials?tut=ros_installing
+RQT Graph: https://roboticsbackend.com/rqt-graph-visualize-and-debug-your-ros-graph/

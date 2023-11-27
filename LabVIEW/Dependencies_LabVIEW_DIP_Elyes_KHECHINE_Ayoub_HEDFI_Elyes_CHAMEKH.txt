@@ -1,0 +1,5 @@
+NI LabVIEW
+
+LabVIEW modules that need to be installed:
+NI LabVIEW Control Design and Simulation Module
+NI LabVIEW MathScript RT Module or later
