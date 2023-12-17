@@ -1,0 +1,2327 @@
+<head>
+<title>DBPEN-LIN.html</title>
+<!-- Created by Maple 15.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size="3">
+<a href="DBPEN-LIN.html#MapleAutoBookmark1">DBPEN-LIN.mws</a>
+<ul>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark2">Description</a></font>
+<ul>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark3">The Quanser_Tools Package</a></font>
+</ul>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark4">Worksheet Initialization</a></font>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark5">Notations</a></font>
+<ul>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark6">Generalized Coordinates: <br />
+q[i]'s</a></font>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark7">Transformation Matrices</a></font>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark8">Cartesian Coordinates of the Pendulum's Centre Of Gravity</a></font>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark9">State-Space Variables</a></font>
+</ul>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark10">Total Potential and Kinetic Energies of the System</a></font>
+<ul>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark11">Total Potential Energy: <br />
+V[T];</a></font>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark12">Total Kinetic Energy: <br />
+T[T];</a></font>
+</ul>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark13">Generalized Forces: <br />
+Q[i]'s</a></font>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark14">Euler-Lagrange's Equations</a></font>
+<ul>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark15">Linearization &nbsp;in the EOM's of the Trigonometric Functions</a></font>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark16">Additional Insight: Inertia (or mass) Matrix: Fi</a></font>
+</ul>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark17">Solving the Euler-Lagrange's Equations</a></font>
+<ul>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark18">Reverse State Substitution for Pretty Display of the Solved EOM's</a></font>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark19">Solution to the Non-Linear Equations of Motion</a></font>
+<li><font size="-2"><a href="DBPEN-LIN.html#MapleAutoBookmark20">Solution to the Linearized EOM's</a></font>
+</ul>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark21">Determine the System State-Space Matrices: A, B, C, and D</a></font>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark22">Write A, B, C, and D to a Matlab file</a></font>
+<li><font size="-1"><a href="DBPEN-LIN.html#MapleAutoBookmark23">Procedure Printing</a></font>
+</ul>
+<hr/>
+<a name="MapleAutoBookmark1" />
+<p align="center">
+<b><u><font color="#000000" size="6">Dynamic Equations for the <br />
+Linear Double Inverted Pendulum (DBIP) Experiment</font></u></b>
+</p>
+<p align="center">
+<i><font color="#000000">©</font></i>
+<i><font color="#000000">&nbsp;2012 Quanser Consulting Inc.</font></i>
+</p>
+<p align="center">
+<font color="#000000">URL: </font>
+<a href="http://www.quanser.com">http://www.quanser.com</a></p>
+<p align="center">
+<font color="#000000" size="2">NOTE: This worksheet presents the general dynamic equations modelling a Double Inverted Pendulum mounted on a linear cart.</font>
+</p>
+<p align="center"><a name="Description" />
+</p>
+<dl><a name="MapleAutoBookmark2" />
+<p align="left">
+<b><font color="#000000" size="5">Description</font></b>
+</p>
+<ul><li>
+<font color="#000000">This worksheet presents the general dynamic equations modelling a double inverted pendulum mounted on a linear cart (i.e. IP02).</font>
+</li>
+<li>
+<font color="#000000">Specifically, this worksheet is used to derive the state-space matrices for the Quanser's </font>
+<b><font color="#000000">DouBle Inverted Pendulum (DBIP)</font></b>
+<font color="#000000">&nbsp;experiment.</font>
+</li>
+<li>
+<font color="#000000">The resulting double inverted pendulum system has 3-Degrees-Of-Freedom (DOF) for a planar motion.</font>
+</li>
+<li>
+<font color="#000000">The Lagrange's method is used to obtain the dynamic model of the system.</font>
+</li>
+<dl><a name="MapleAutoBookmark3" />
+</ul>
+<p align="left">
+<b><font color="#000000" size="4">The </font></b>
+<i><b><font color="#000000" size="4">Quanser_Tools</font></b></i>
+<b><font color="#000000" size="4">&nbsp;Package</font></b>
+</p>
+<ul><li>
+<font color="#000000">The </font>
+<i><font color="#000000">Quanser_Tools</font></i>
+<font color="#000000">&nbsp;module defines generic procedures and data in relation to determining the state-space representation of all the Quanser experiments. Specifically, this means deriving and solving the Lagrange's equations of the Quanser systems.</font>
+</li>
+<li>
+<font color="#000000">The </font>
+<i><font color="#000000">quanser</font></i>
+<font color="#000000">&nbsp;repository containing the </font>
+<i><font color="#000000">Quanser_Tools</font></i>
+<font color="#000000">&nbsp;package is implemented in the 2 following files: </font>
+<i><font color="#000000">quanser.ind</font></i>
+<font color="#000000">&nbsp;and </font>
+<i><font color="#000000">quanser.lib.</font></i>
+<font color="#000000">&nbsp;If these two files are not readily available, they can be generated by executing the Maple worksheet titled: </font>
+<i><font color="#000000">quanser_tools.mws</font></i>
+<font color="#000000">.</font>
+</li>
+<li>
+<b><font color="#000000">To install</font></b>
+<font color="#000000">&nbsp;the </font>
+<i><font color="#000000">Quanser_Tools</font></i>
+<font color="#000000">&nbsp;package, copy the two files </font>
+<i><font color="#000000">quanser.ind</font></i>
+<font color="#000000">&nbsp;and </font>
+<i><font color="#000000">quanser.lib</font></i>
+<font color="#000000">&nbsp;&nbsp;into a directory of your choice, like for example: "C:\Program Files\Quanser\Maple Repository". </font>
+</li>
+<li>
+<b><font color="#000000">To use</font></b>
+<font color="#000000">&nbsp;the </font>
+<i><font color="#000000">Quanser_Tools</font></i>
+<font color="#000000">&nbsp;package in a Maple worksheet, add the path to its disk location to the Maple global variable </font>
+<i><font color="#000000">libname</font></i>
+<font color="#000000">. For example, this can be achieved by the following Maple command: <br />
+libname := </font>
+<i><font color="#000000">&nbsp;"C:/Program Files/Quanser/Maple Repository", libname:</font></i>
+</li>
+</dl></dl><dl><a name="MapleAutoBookmark4" />
+</ul>
+<p align="left">
+<b><font color="#000000" size="5">Worksheet Initialization</font></b>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">restart: interface( imaginaryunit = j ): </font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">with( LinearAlgebra ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">libname := "C:/Program Files/Quanser/Maple Repository", ".", libname:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">with( Quanser_Tools );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mfenced open='[' close=']'>
+    <mi>HTM</mi>
+    <mi>deriveA</mi>
+    <mi>deriveB</mi>
+    <mi>deriveF</mi>
+    <mi>kinetic_energy</mi>
+    <mi>lagrange_equations</mi>
+    <mi>moment_of_inertia</mi>
+    <mi>n_norm</mi>
+    <mi>potential_energy</mi>
+    <mi>write_ABCD_to_Mfile</mi>
+  </mfenced>
+</math>
+</p>
+<p align="left">
+<font color="#000000">environment variable representing the order of series calculations</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Order := 2:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">IP02 Parameters</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">IP02_PARAM := { M[c] = 0.7031, J[m] = 3.9e-7, K[t] = 0.0077, Eff_m = 1, r[mp] = 0.0063, B[eq] = 4.3, K[g] = 3.71};</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN1.gif" width="728" height="36" alt="IP02_PARAM := {K[g] = 3.71, B[eq] = 4.3, r[mp] = .63e-2, Eff_m = 1, K[t] = .77e-2, J[m] = .39e-6, M[c] = .7031}" />
+</p>
+</dl><dl><a name="MapleAutoBookmark5" />
+<p align="left"><a name="Notations" />
+<b><font color="#000000" size="5">Notations</font></b>
+</p>
+<dl><a name="MapleAutoBookmark6" />
+<p align="left">
+<b><font color="#000000" size="4">Generalized Coordinates: </font></b>
+<img src="images/DBPEN-LIN2.gif" width="29" height="36" alt="q[i]" align="middle" />
+<b><font color="#000000" size="4">'s</font></b>
+</p>
+<p align="left">
+<font color="#000000">The generalized coordinates are also called Lagrangian coordinates.</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN3.gif" width="50" height="32" alt="x[c](t)" align="middle" />
+<font color="#000000">&nbsp;= &nbsp;driving cart (i.e. HFLC) linear position </font>
+</p>
+<p align="left">
+<font color="#000000">Relative Pendulum angles:</font>
+</p>
+<p align="left">
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mi>&alpha;</mi>
+</math>
+<font color="#000000">&nbsp;= Lower inverted pendulum position angle about the vertical: the zero angle [mod 2*pi] is defined when the IP is in the perfect upright position.</font>
+</p>
+<p align="left">
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mrow>
+    <mi>&theta;</mi>
+    <mo>&ApplyFunction;</mo>
+    <mfenced>
+      <mi>t</mi>
+    </mfenced>
+  </mrow>
+</math>
+<font color="#000000">&nbsp;= Upper inverted pendulum position angle about the vertical of the lower pendulum: the zero angle [mod 2*pi] is defined when the IP is in the perfect upright position w.r.t. to the lower pendulum.</font>
+</p>
+<p align="left">
+<font color="#000000">Np = number of links (i.e. pendulums)</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Np := 2:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">q := [ x[c](t), alpha(t), theta(t) ];</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN4.gif" width="165" height="27" alt="q := [x[c](t), alpha(t), theta(t)]" />
+</p>
+<p align="left">
+<font color="#000000">Nq = number of Lagrangian coordinates</font>
+</p>
+<p align="left">
+<font color="#000000">Nq is also the number of position states.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Nq := nops( q ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">qd = first-order time derivative of the generalized coordinates, e.g. position and angular velocities</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">qd := map( diff, q, t );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN5.gif" width="226" height="45" alt="qd := [diff(x[c](t),t), diff(alpha(t),t), diff(theta(t),t)]" />
+</p>
+</dl><dl><a name="MapleAutoBookmark7" />
+<p align="left">
+<b><font color="#000000" size="4">Transformation Matrices</font></b>
+</p>
+<p align="left">
+<font color="#000000">Translation from the base to cart position.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[0,c] := HTM('trans',q[1],0,0);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN6.gif" width="194" height="117" alt="T[0,c] := Matrix(%id = 136610524)" />
+</p>
+<p align="left">
+<font color="#000000">Rotation about </font>
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mi>&alpha;</mi>
+</math>
+<font color="#000000">&nbsp;joint.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">R[alpha] := HTM('rot','Z',q[2]);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN7.gif" width="266" height="110" alt="R[alpha] := Matrix(%id = 137147752)" />
+</p>
+<p align="left">
+<font color="#000000">Translation to pendulum 1 cog.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[p1] := HTM('trans',0,l[p1],0);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN8.gif" width="189" height="117" alt="T[p1] := Matrix(%id = 137148272)" />
+</p>
+<p align="left">
+<font color="#000000">Translation to hinge.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[ph] := HTM('trans',0,L[p1],0);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN9.gif" width="190" height="117" alt="T[ph] := Matrix(%id = 137148704)" />
+</p>
+<p align="left">
+<font color="#000000">Cart to pendulum 1 cog.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[c,1] := Multiply(R[alpha],T[p1]);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN10.gif" width="363" height="124" alt="T[c,1] := Matrix(%id = 137149136)" />
+</p>
+<p align="left">
+<font color="#000000">Cart to hinge</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[c,h] := Multiply(R[alpha],T[ph]);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN11.gif" width="368" height="124" alt="T[c,h] := Matrix(%id = 137149556)" />
+</p>
+<p align="left">
+<font color="#000000">Rotation about </font>
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mi>&theta;</mi>
+</math>
+<font color="#000000">.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">R[theta] := HTM('rot','Z',q[3]);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN12.gif" width="257" height="110" alt="R[theta] := Matrix(%id = 137149996)" />
+</p>
+<p align="left">
+<font color="#000000">Translation to cog 2.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[p2] := HTM('trans',0,l[p2],0);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN13.gif" width="189" height="117" alt="T[p2] := Matrix(%id = 137150440)" />
+</p>
+<p align="left">
+<font color="#000000">Hinge to cog 2</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[h,2] := Multiply( R[theta], T[p2] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN14.gif" width="355" height="124" alt="T[h,2] := Matrix(%id = 137151032)" />
+</p>
+<p align="left">
+<font color="#000000">Cart to cog 2.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[c,2] := Multiply( T[c,h], T[h,2] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN15.gif" width="68" height="27" alt="T[c,2] := Matrix(%id = 137151480)" />
+<br />
+<img src="images/DBPEN-LIN16.gif" width="610" height="20" alt="T[c,2] := Matrix(%id = 137151480)" />
+<br />
+<img src="images/DBPEN-LIN17.gif" width="455" height="27" alt="T[c,2] := Matrix(%id = 137151480)" />
+<br />
+<img src="images/DBPEN-LIN18.gif" width="601" height="20" alt="T[c,2] := Matrix(%id = 137151480)" />
+<br />
+<img src="images/DBPEN-LIN19.gif" width="460" height="27" alt="T[c,2] := Matrix(%id = 137151480)" />
+<br />
+<img src="images/DBPEN-LIN20.gif" width="98" height="20" alt="T[c,2] := Matrix(%id = 137151480)" />
+<br />
+<img src="images/DBPEN-LIN21.gif" width="98" height="20" alt="T[c,2] := Matrix(%id = 137151480)" />
+</p>
+<p align="left">
+<font color="#000000">Base coordinate system to cog 1.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[0,1] := Multiply( T[0,c], T[c,1] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN22.gif" width="415" height="124" alt="T[0,1] := Matrix(%id = 137151912)" />
+</p>
+<p align="left">
+<font color="#000000">Base coordinate system to hinge.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[0,h] := Multiply( T[0,c], T[c,h] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN23.gif" width="420" height="124" alt="T[0,h] := Matrix(%id = 137152344)" />
+</p>
+<p align="left">
+<font color="#000000">Base coordinate system to the cog 2.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[0,2] := Multiply( T[0,c], T[c,2] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN24.gif" width="69" height="27" alt="T[0,2] := Matrix(%id = 137152776)" />
+<br />
+<img src="images/DBPEN-LIN25.gif" width="610" height="20" alt="T[0,2] := Matrix(%id = 137152776)" />
+<br />
+<img src="images/DBPEN-LIN26.gif" width="506" height="27" alt="T[0,2] := Matrix(%id = 137152776)" />
+<br />
+<img src="images/DBPEN-LIN27.gif" width="601" height="20" alt="T[0,2] := Matrix(%id = 137152776)" />
+<br />
+<img src="images/DBPEN-LIN28.gif" width="460" height="27" alt="T[0,2] := Matrix(%id = 137152776)" />
+<br />
+<img src="images/DBPEN-LIN29.gif" width="98" height="20" alt="T[0,2] := Matrix(%id = 137152776)" />
+<br />
+<img src="images/DBPEN-LIN30.gif" width="98" height="20" alt="T[0,2] := Matrix(%id = 137152776)" />
+</p>
+<p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark8" />
+<p align="left">
+<b><font color="#000000" size="4">Cartesian Coordinates of the Pendulum's Centre Of Gravity </font></b>
+</p>
+<p align="left">
+<font color="#000000">conventions:</font>
+</p>
+<p align="left">
+<font color="#000000">1) </font>
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mfenced open='[' close=']'>
+    <mrow>
+      <mi>&alpha;</mi>
+      <mo>=</mo>
+      <mn>0</mn>
+    </mrow>
+    <mrow>
+      <mi>&theta;</mi>
+      <mo>=</mo>
+      <mn>0</mn>
+    </mrow>
+  </mfenced>
+</math>
+<font color="#000000">&nbsp;corresponds to both pendulums perfectly vertical, pointing downswards.</font>
+</p>
+<p align="left">
+<font color="#000000">2) positive rotation is </font>
+<b><font color="#000000">CCW</font></b>
+<font color="#000000">&nbsp;when facing the cart.</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN31.gif" width="44" height="32" alt="x[p,i]" align="middle" />
+<font color="#000000">&nbsp;= x-coordinate of each pendulum's Centre Of Gravity (COG) absolute Cartesian position</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN32.gif" width="43" height="32" alt="y[p,i]" align="middle" />
+<font color="#000000">&nbsp;= y-coordinate of each pendulum's Centre Of Gravity (COG) absolute Cartesian position</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">x[p,1] := T[0,1][1,4]; <br />
+y[p,1] := T[0,1][2,4];<br />
+x[p,2] := T[0,2][1,4]; <br />
+y[p,2] := T[0,2][2,4];</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN33.gif" width="212" height="27" alt="x[p,1] := -sin(alpha(t))*l[p1]+x[c](t)" />
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN34.gif" width="156" height="27" alt="y[p,1] := cos(alpha(t))*l[p1]" />
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN35.gif" width="551" height="27" alt="x[p,2] := -cos(alpha(t))*sin(theta(t))*l[p2]-sin(alpha(t))*cos(theta(t))*l[p2]-sin(alpha(t))*L[p1]+x[c](t)" />
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN36.gif" width="504" height="27" alt="y[p,2] := -sin(alpha(t))*sin(theta(t))*l[p2]+cos(alpha(t))*cos(theta(t))*l[p2]+cos(alpha(t))*L[p1]" />
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN37.gif" width="32" height="32" alt="x[h]" align="middle" />
+<font color="#000000">&nbsp;= x-coordinate of the hinge COG absolute Cartesian position</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN38.gif" width="31" height="32" alt="y[h]" align="middle" />
+<font color="#000000">&nbsp;= y-coordinate of the hinge COG absolute Cartesian position</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">x[h] := T[0,h][1,4]; <br />
+y[h] := T[0,h][2,4];</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN39.gif" width="201" height="27" alt="x[h] := -sin(alpha(t))*L[p1]+x[c](t)" />
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN40.gif" width="145" height="27" alt="y[h] := cos(alpha(t))*L[p1]" />
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN41.gif" width="52" height="32" alt="xd[p,i]" align="middle" />
+<font color="#000000">&nbsp;= x-coordinate of each pendulum's Centre Of Gravity (COG) absolute Cartesian velocity<br />
+</font>
+<img src="images/DBPEN-LIN42.gif" width="51" height="32" alt="yd[p,i]" align="middle" />
+<font color="#000000">&nbsp;= y-coordinate of each pendulum's Centre Of Gravity (COG) absolute Cartesian velocity</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">xd[p,1] := diff(x[p,1],t);<br />
+yd[p,1] := diff(y[p,1],t);<br />
+xd[p,2] := diff(x[p,2],t);<br />
+yd[p,2] := diff(y[p,2],t);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN43.gif" width="325" height="45" alt="xd[p,1] := -cos(alpha(t))*diff(alpha(t),t)*l[p1]+diff(x[c](t),t)" />
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN44.gif" width="235" height="45" alt="yd[p,1] := -sin(alpha(t))*diff(alpha(t),t)*l[p1]" />
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN45.gif" width="763" height="45" alt="xd[p,2] := sin(alpha(t))*diff(alpha(t),t)*sin(theta(t))*l[p2]-cos(alpha(t))*cos(theta(t))*diff(theta(t),t)*l[p2]-cos(alpha(t))*diff(alpha(t),t)*cos(theta(t))*l[p2]+sin(alpha(t))*sin(theta(t))*diff(thet..." />
+<br />
+<img src="images/DBPEN-LIN46.gif" width="504" height="45" alt="xd[p,2] := sin(alpha(t))*diff(alpha(t),t)*sin(theta(t))*l[p2]-cos(alpha(t))*cos(theta(t))*diff(theta(t),t)*l[p2]-cos(alpha(t))*diff(alpha(t),t)*cos(theta(t))*l[p2]+sin(alpha(t))*sin(theta(t))*diff(thet..." />
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN47.gif" width="766" height="45" alt="yd[p,2] := -cos(alpha(t))*diff(alpha(t),t)*sin(theta(t))*l[p2]-sin(alpha(t))*cos(theta(t))*diff(theta(t),t)*l[p2]-sin(alpha(t))*diff(alpha(t),t)*cos(theta(t))*l[p2]-cos(alpha(t))*sin(theta(t))*diff(the..." />
+<br />
+<img src="images/DBPEN-LIN48.gif" width="420" height="45" alt="yd[p,2] := -cos(alpha(t))*diff(alpha(t),t)*sin(theta(t))*l[p2]-sin(alpha(t))*cos(theta(t))*diff(theta(t),t)*l[p2]-sin(alpha(t))*diff(alpha(t),t)*cos(theta(t))*l[p2]-cos(alpha(t))*sin(theta(t))*diff(the..." />
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN49.gif" width="40" height="32" alt="xd[h]" align="middle" />
+<font color="#000000">&nbsp;= x-coordinate of the hinge COG absolute Cartesian position</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN50.gif" width="39" height="32" alt="yd[h]" align="middle" />
+<font color="#000000">&nbsp;= y-coordinate of the hinge COG absolute Cartesian position</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">xd[h] := diff(x[h],t);<br />
+yd[h] := diff(y[h],t);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN51.gif" width="314" height="45" alt="xd[h] := -cos(alpha(t))*diff(alpha(t),t)*L[p1]+diff(x[c](t),t)" />
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN52.gif" width="224" height="45" alt="yd[h] := -sin(alpha(t))*diff(alpha(t),t)*L[p1]" />
+</p>
+<p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark9" />
+<p align="left">
+<b><font color="#000000" size="4">State-Space Variables</font></b>
+</p>
+<ul><li>
+<font color="#000000">The chosen states should at least include the generalized coordinates and their first-time derivatives.</font>
+</li>
+<li>
+<font color="#000000">X is the state vector.</font>
+</li>
+<li>
+<font color="#000000">In the state vector X: Lagrangian coordinates are first, followed by their first-time derivatives, and finally any other states, as required.</font>
+</li>
+</ul>
+<p align="left">
+<font color="#000000">Substitution sets for the states (to obtain time-independent state equations).</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">subs_Xq := { seq( q[i] = X[i], i=1..Nq ) };<br />
+subs_Xqd := { seq( qd[i] = X[i+Nq], i=1..Nq ) };</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN53.gif" width="321" height="27" alt="subs_Xq := {theta(t) = X[3], alpha(t) = X[2], x[c](t) = X[1]}" />
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN54.gif" width="380" height="45" alt="subs_Xqd := {diff(theta(t),t) = X[6], diff(alpha(t),t) = X[5], diff(x[c](t),t) = X[4]}" />
+</p>
+<p align="left">
+<font color="#000000">Substitution set for the input(s).</font>
+</p>
+<p align="left">
+<font color="#000000">set the input to be the motor voltage:</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">subs_U := { V[m] = U[1] }:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">set the input to be the cart's driving force: </font>
+<img src="images/DBPEN-LIN55.gif" width="33" height="32" alt="F[c]" align="middle" />
+<font color="#000000">&nbsp;(if not expressed as a function of the motor voltage): </font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">#subs_U := { F[c] = U[1] }:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">Nu = number of inputs; U </font>
+<font color="#000000">= input (row) vector (e.g. U = [ V[m] ] )</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Nu := nops( subs_U ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">substitution set for the position states' second time derivatives</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">subs_Xqdd := { seq( diff( q[i], t$2 ) = &nbsp;Xd[i+Nq], i=1..Nq ) };</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN56.gif" width="440" height="63" alt="subs_Xqdd := {diff(alpha(t),`$`(t,2)) = Xd[5], diff(theta(t),`$`(t,2)) = Xd[6], diff(x[c](t),`$`(t,2)) = Xd[4]}" />
+</p>
+<p align="left">
+<font color="#000000">second time derivatives of the position states (written as time-independent variables).</font>
+</p>
+<p align="left">
+<font color="#000000">The set of unknowns is obtained from this list to solve the Lagrange's equations of motion.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Xqdd := [ seq( Xd[i+Nq], i=1..Nq ) ];</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN57.gif" width="178" height="27" alt="Xqdd := [Xd[4], Xd[5], Xd[6]]" />
+</p>
+<p align="left">
+<font color="#000000">substitution set to linearize the state-space matrices (i.e. A and B) </font>
+</p>
+<p align="left">
+<font color="#000000">about the quiescent null state vector (small-displacement theory)</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">subs_XUzero := { seq( X[i] = 0, i=1..2*Nq ), seq( U[i] = 0, i=1..Nu ) }:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">Nx = dim( X ) = total number of states (should be greater than or equal to: 2 * Nq)</font>
+</p>
+<p align="left">
+<font color="#000000">Ny = chosen number of outputs</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Nx := 2 * Nq + 0:<br />
+Ny := Nq:</font></b>
+</td></tr>
+</table>
+</p>
+</dl></dl><dl><a name="MapleAutoBookmark10" />
+<p align="left">
+<b><font color="#000000" size="5">Total Potential and Kinetic Energies of the System</font></b>
+</p>
+<p align="left">
+<font color="#000000">The total potential and kinetic energies are needed to calculate the Lagragian of the system.</font>
+</p>
+<dl><a name="MapleAutoBookmark11" />
+<p align="left">
+<b><font color="#000000" size="4">Total Potential Energy: </font></b>
+<img src="images/DBPEN-LIN58.gif" width="39" height="36" alt="V[T]" align="middle" />
+<b><font color="#000000" size="4">&nbsp;</font></b>
+</p>
+<p align="left">
+<font color="#000000">The total potential energy can be expressed in terms of the generalized coordinates alone.</font>
+</p>
+<p align="left">
+<font color="#000000">V[e] = Total Elastic Potential Energy of the system</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">V[e] := 0; </font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN59.gif" width="61" height="27" alt="V[e] := 0" />
+</p>
+<p align="left">
+<font color="#000000">Pendulum 1 potential energy</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Vg[1] := potential_energy( 'gravity', M[p1], g, y[p,1] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN60.gif" width="196" height="27" alt="Vg[1] := M[p1]*g*cos(alpha(t))*l[p1]" />
+</p>
+<p align="left">
+<font color="#000000">Pendulum 2 potential energy</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Vg[2] := potential_energy( 'gravity', M[p2], g, y[p,2] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN61.gif" width="558" height="27" alt="Vg[2] := M[p2]*g*(-sin(alpha(t))*sin(theta(t))*l[p2]+cos(alpha(t))*cos(theta(t))*l[p2]+cos(alpha(t))*L[p1])" />
+</p>
+<p align="left">
+<font color="#000000">Hinge potential energy</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Vg[h] := potential_energy( 'gravity', M[h], g, y[h] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN62.gif" width="193" height="27" alt="Vg[h] := M[h]*g*cos(alpha(t))*L[p1]" />
+</p>
+<p align="left">
+<font color="#000000">Vg = Total Gravitational Potential Energy of the system</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">V[g] := Vg[1] + Vg[2] + Vg[h];</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN63.gif" width="849" height="27" alt="V[g] := M[p1]*g*cos(alpha(t))*l[p1]+M[p2]*g*(-sin(alpha(t))*sin(theta(t))*l[p2]+cos(alpha(t))*cos(theta(t))*l[p2]+cos(alpha(t))*L[p1])+M[h]*g*cos(alpha(t))*L[p1]" />
+</p>
+<p align="left">
+<font color="#000000">V[T] = Total Potential Energy of the system</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">V[T] := simplify(V[g] + V[e]);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN64.gif" width="55" height="27" alt="V[T] := g*(M[p1]*cos(alpha(t))*l[p1]-M[p2]*sin(alpha(t))*sin(theta(t))*l[p2]+M[p2]*cos(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*L[p1]+M[h]*cos(alpha(t))*L[p1])" />
+<br />
+<img src="images/DBPEN-LIN65.gif" width="844" height="27" alt="V[T] := g*(M[p1]*cos(alpha(t))*l[p1]-M[p2]*sin(alpha(t))*sin(theta(t))*l[p2]+M[p2]*cos(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*L[p1]+M[h]*cos(alpha(t))*L[p1])" />
+</p>
+<p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark12" />
+<p align="left">
+<b><font color="#000000" size="4">Total Kinetic Energy: </font></b>
+<img src="images/DBPEN-LIN66.gif" width="38" height="36" alt="T[T]" align="middle" />
+</p>
+<p align="left">
+<font color="#000000">The total kinetic energy can be expressed in terms of the generalized coordinates and their first-time derivatives.</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN67.gif" width="37" height="32" alt="Tt[c]" align="middle" />
+<font color="#000000">&nbsp;= translational kinetic energy of the motorized cart (e.g. HFLC) </font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN68.gif" width="36" height="32" alt="M[c]" align="middle" />
+<font color="#000000">&nbsp;= cart total mass</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Tt[c] := kinetic_energy( 'translation', M[c], qd[1] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN69.gif" width="169" height="58" alt="Tt[c] := 1/2*M[c]*diff(x[c](t),t)^2" />
+</p>
+<p align="left">
+<font color="#000000">The cart's directions of translation and rotation are orthogonal.</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN70.gif" width="31" height="32" alt="T[r]" align="middle" />
+<font color="#000000">&nbsp;= kinetic energy due to rotation tied to the motorized cart</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN71.gif" width="35" height="32" alt="J[m]" align="middle" />
+<font color="#000000">&nbsp;= motor armature inertia; </font>
+<img src="images/DBPEN-LIN72.gif" width="35" height="32" alt="K[g]" align="middle" />
+<font color="#000000">&nbsp;= gear ratio; </font>
+<img src="images/DBPEN-LIN73.gif" width="42" height="32" alt="r[mp]" align="middle" />
+<font color="#000000">&nbsp;= motor pinion radius</font>
+</p>
+<p align="left">
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Tr[c] := kinetic_energy( 'rotation', J[m], omega[m](t));</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN74.gif" width="144" height="45" alt="Tr[c] := 1/2*J[m]*omega[m](t)^2" />
+</p>
+<p align="left">
+<font color="#000000">Angular rate of motor w.r.t. linear velocity (no gearbox).</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">REL_W_X := omega[m](t) = K[g] * qd[1] / r[mp]:<br />
+REL_W_X;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN75.gif" width="169" height="77" alt="omega[m](t) = K[g]*diff(x[c](t),t)/r[mp]" />
+</p>
+<p align="left">
+<font color="#000000">Express rotational kinetic energy in terms of linear velocity.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">K_ROT_CART := subs(REL_W_X,Tr[c]):<br />
+K_ROT_CART;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN76.gif" width="163" height="92" alt="1/2*J[m]*K[g]^2*diff(x[c](t),t)^2/r[mp]^2" />
+</p>
+<p align="left">
+<font color="#000000">Evaluate coefficient of above term.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">K_ROT_CART_COEFF := coeff(K_ROT_CART,diff(x[c](t),t),2):<br />
+K_ROT_CART_COEFF = evalf(subs(IP02_PARAM,K_ROT_CART_COEFF),3)*Unit(kg);</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN77.gif" width="178" height="63" alt="1/2*J[m]*K[g]^2/r[mp]^2 = .680e-1*Unit([kg])" />
+</p>
+<p align="left">
+<font color="#000000">Given that 0.0680 kg &lt;&lt; Mc (0.14 kg), the rotational kinetic energy from the cart can be neglected. Therefore</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Tr[c] := 0;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN78.gif" width="66" height="27" alt="Tr[c] := 0" />
+</p>
+<p align="left">
+<font color="#000000">Pendulum 1 motion is composed of one rotation and one translation, both directions are orthogonal.</font>
+</p>
+<p align="left">
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mrow>
+    <mfrac>
+      <mo>&DifferentialD;</mo>
+      <mrow>
+        <mo>&DifferentialD;</mo>
+        <mi>t</mi>
+      </mrow>
+    </mfrac>
+    <mrow>
+      <mi>&alpha;</mi>
+      <mo>&ApplyFunction;</mo>
+      <mfenced>
+        <mi>t</mi>
+      </mfenced>
+    </mrow>
+  </mrow>
+</math>
+<font color="#000000">&nbsp;= pendulum 1 absolute angular velocity;</font>
+</p>
+<p align="left">
+<font color="#000000">Tr[p,1] = pendulum 1 rotational kinetic kinergy; </font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">#Tr[p,1] := kinetic_energy( 'rotation', J[p1], qd[2] );<br />
+Tr[p,1] := 0;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN79.gif" width="83" height="27" alt="Tr[p,1] := 0" />
+</p>
+<p align="left">
+<font color="#000000">v[p,1] = pendulum 1 cartesian velocity (magnitude);</font>
+</p>
+<p align="left">
+<font color="#000000">Tt[p,1] = pendulum 1 translational kinetic kinergy</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">v[p,1] := n_norm( [ xd[p,1], yd[p,1] ], 2 ):<br />
+Tt[p,1] := kinetic_energy( 'translation', M[p1], v[p,1] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN80.gif" width="604" height="58" alt="Tt[p,1] := 1/2*M[p1]*((-cos(alpha(t))*diff(alpha(t),t)*l[p1]+diff(x[c](t),t))^2+sin(alpha(t))^2*diff(alpha(t),t)^2*l[p1]^2)" />
+</p>
+<p align="left">
+<font color="#000000">Pendulum 2 motion is composed of one rotation and one translation, both directions are orthogonal.</font>
+</p>
+<p align="left">
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mrow>
+    <mfrac>
+      <mo>&DifferentialD;</mo>
+      <mrow>
+        <mo>&DifferentialD;</mo>
+        <mi>t</mi>
+      </mrow>
+    </mfrac>
+    <mrow>
+      <mi>&theta;</mi>
+      <mo>&ApplyFunction;</mo>
+      <mfenced>
+        <mi>t</mi>
+      </mfenced>
+    </mrow>
+  </mrow>
+</math>
+<font color="#000000">&nbsp;= pendulum 2 absolute angular velocity </font>
+</p>
+<p align="left">
+<font color="#000000">Tr[p,2] = pendulum 2 rotational kinetic kinergy</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">#Tr[p,2] := kinetic_energy( 'rotation', J[p2], qd[3] );<br />
+Tr[p,2] := 0;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN81.gif" width="83" height="27" alt="Tr[p,2] := 0" />
+</p>
+<p align="left">
+<font color="#000000">v[p,2] = pendulum 2 cartesian velocity (magnitude) </font>
+</p>
+<p align="left">
+<font color="#000000">Tt[p,2] = pendulum 2 translational kinetic kinergy</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">v[p,2] := n_norm( [ xd[p,2], yd[p,2] ], 2 ):<br />
+Tt[p,2] := kinetic_energy( 'translation', M[p2], v[p,2] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN82.gif" width="822" height="58" alt="Tt[p,2] := 1/2*M[p2]*((sin(alpha(t))*diff(alpha(t),t)*sin(theta(t))*l[p2]-cos(alpha(t))*cos(theta(t))*diff(theta(t),t)*l[p2]-cos(alpha(t))*diff(alpha(t),t)*cos(theta(t))*l[p2]+sin(alpha(t))*sin(theta(t..." />
+<br />
+<img src="images/DBPEN-LIN83.gif" width="772" height="58" alt="Tt[p,2] := 1/2*M[p2]*((sin(alpha(t))*diff(alpha(t),t)*sin(theta(t))*l[p2]-cos(alpha(t))*cos(theta(t))*diff(theta(t),t)*l[p2]-cos(alpha(t))*diff(alpha(t),t)*cos(theta(t))*l[p2]+sin(alpha(t))*sin(theta(t..." />
+<br />
+<img src="images/DBPEN-LIN84.gif" width="712" height="45" alt="Tt[p,2] := 1/2*M[p2]*((sin(alpha(t))*diff(alpha(t),t)*sin(theta(t))*l[p2]-cos(alpha(t))*cos(theta(t))*diff(theta(t),t)*l[p2]-cos(alpha(t))*diff(alpha(t),t)*cos(theta(t))*l[p2]+sin(alpha(t))*sin(theta(t..." />
+<br />
+<img src="images/DBPEN-LIN85.gif" width="214" height="58" alt="Tt[p,2] := 1/2*M[p2]*((sin(alpha(t))*diff(alpha(t),t)*sin(theta(t))*l[p2]-cos(alpha(t))*cos(theta(t))*diff(theta(t),t)*l[p2]-cos(alpha(t))*diff(alpha(t),t)*cos(theta(t))*l[p2]+sin(alpha(t))*sin(theta(t..." />
+</p>
+<p align="left">
+<font color="#000000">The hinge motion is composed one translation</font>
+</p>
+<p align="left">
+<font color="#000000">v[h] = hinge cartesian velocity (magnitude);</font>
+</p>
+<p align="left">
+<font color="#000000">Tt[h] = hinge translational kinetic kinergy</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">v[h] := n_norm( [ xd[h], yd[h] ], 2 ):<br />
+Tt[h] := kinetic_energy( 'translation', M[h], v[h] );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN86.gif" width="590" height="58" alt="Tt[h] := 1/2*M[h]*((-cos(alpha(t))*diff(alpha(t),t)*L[p1]+diff(x[c](t),t))^2+sin(alpha(t))^2*diff(alpha(t),t)^2*L[p1]^2)" />
+</p>
+<p align="left">
+<font color="#000000">Total kinetic energy.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">T[T] := collect( simplify( Tr[c]+Tt[c]+Tr[p,1]+Tt[p,1]+Tr[p,2]+Tt[p,2]+Tt[h] ), diff );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN87.gif" width="218" height="58" alt="T[T] := 1/2*M[p2]*diff(theta(t),t)^2*l[p2]^2+((M[p2]*l[p2]^2+M[p2]*cos(theta(t))*l[p2]*L[p1])*diff(alpha(t),t)+(-M[p2]*cos(alpha(t))*cos(theta(t))*l[p2]+M[p2]*sin(alpha(t))*sin(theta(t))*l[p2])*diff(x[..." />
+<br />
+<img src="images/DBPEN-LIN88.gif" width="834" height="45" alt="T[T] := 1/2*M[p2]*diff(theta(t),t)^2*l[p2]^2+((M[p2]*l[p2]^2+M[p2]*cos(theta(t))*l[p2]*L[p1])*diff(alpha(t),t)+(-M[p2]*cos(alpha(t))*cos(theta(t))*l[p2]+M[p2]*sin(alpha(t))*sin(theta(t))*l[p2])*diff(x[..." />
+<br />
+<img src="images/DBPEN-LIN89.gif" width="716" height="58" alt="T[T] := 1/2*M[p2]*diff(theta(t),t)^2*l[p2]^2+((M[p2]*l[p2]^2+M[p2]*cos(theta(t))*l[p2]*L[p1])*diff(alpha(t),t)+(-M[p2]*cos(alpha(t))*cos(theta(t))*l[p2]+M[p2]*sin(alpha(t))*sin(theta(t))*l[p2])*diff(x[..." />
+<br />
+<img src="images/DBPEN-LIN90.gif" width="841" height="27" alt="T[T] := 1/2*M[p2]*diff(theta(t),t)^2*l[p2]^2+((M[p2]*l[p2]^2+M[p2]*cos(theta(t))*l[p2]*L[p1])*diff(alpha(t),t)+(-M[p2]*cos(alpha(t))*cos(theta(t))*l[p2]+M[p2]*sin(alpha(t))*sin(theta(t))*l[p2])*diff(x[..." />
+<br />
+<img src="images/DBPEN-LIN91.gif" width="461" height="58" alt="T[T] := 1/2*M[p2]*diff(theta(t),t)^2*l[p2]^2+((M[p2]*l[p2]^2+M[p2]*cos(theta(t))*l[p2]*L[p1])*diff(alpha(t),t)+(-M[p2]*cos(alpha(t))*cos(theta(t))*l[p2]+M[p2]*sin(alpha(t))*sin(theta(t))*l[p2])*diff(x[..." />
+</p>
+<p align="left">
+</p>
+</dl></dl><dl><a name="MapleAutoBookmark13" />
+<p align="left">
+<b><font color="#000000" size="5">Generalized Forces: </font></b>
+<img src="images/DBPEN-LIN92.gif" width="38" height="48" alt="Q[i]" align="middle" />
+<b><font color="#000000" size="5">'s</font></b>
+</p>
+<p align="left">
+<font color="#000000">The non-conservative forces corresponding to the generalized coordinates are: </font>
+<img src="images/DBPEN-LIN93.gif" width="33" height="32" alt="F[c]" align="middle" />
+<font color="#000000">&nbsp;and the viscous damping forces, where</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN94.gif" width="33" height="32" alt="F[c]" align="middle" />
+<font color="#000000">&nbsp;= linear force generated by the motorized cart (e.g. HFLC)</font>
+</p>
+<p align="left">
+<font color="#000000">Bp1 = bottom pendulum viscous friction torque coefficient (a.k.a. viscous damping)</font>
+</p>
+<p align="left">
+<font color="#000000">Bp2 = top pendulum viscous friction torque coefficient (a.k.a. viscous damping)</font>
+</p>
+<p align="left">
+<font color="#000000">Beq = cart viscous damping force coefficient</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN95.gif" width="40" height="32" alt="B[eq]" align="middle" />
+<font color="#000000">&nbsp;= 0 and </font>
+<img src="images/DBPEN-LIN96.gif" width="41" height="32" alt="B[p1]" align="middle" />
+<font color="#000000">&nbsp;= 0 and </font>
+<img src="images/DBPEN-LIN97.gif" width="41" height="32" alt="B[p2]" align="middle" />
+<font color="#000000">&nbsp;= 0 if all viscous dampings are neglected</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">#B[eq] := 0:<br />
+#B[p1] := 0:<br />
+#B[p2] := 0:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">Q[i] = generalized force applied on generalized coordinate q[i]<br />
+the Coulomb friction is neglected, as well as the force due to the pendulum and acting on the linear cart</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Q[1] := F[c] - B[eq] * qd[1];</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN98.gif" width="184" height="45" alt="Q[1] := F[c]-B[eq]*diff(x[c](t),t)" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Q[2] := - B[p1] * qd[2];</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN99.gif" width="156" height="45" alt="Q[2] := -B[p1]*diff(alpha(t),t)" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Q[3] := - B[p2] * qd[3];</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN100.gif" width="153" height="45" alt="Q[3] := -B[p2]*diff(theta(t),t)" />
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN101.gif" width="33" height="32" alt="F[c]" align="middle" />
+<font color="#000000">&nbsp;= Linear force produced by the motor at the motor pinion: cart driving force</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN102.gif" width="33" height="32" alt="F[c]" align="middle" />
+<font color="#000000">&nbsp;is calculated in the Maple worksheet titled: </font>
+<i><font color="#000000">IP01_2_Equations.mws</font></i>
+<font color="#000000">.<br />
+rm: comment the following line out if U = F[c], uncomment it if U = V[m]</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">F[c] := eta[g] * K[g] * eta[m] * K[t] * ( V[m] * r[mp] - K[g] * K[m] * qd[1] ) / R[m] / r[mp]^2;;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN103.gif" width="350" height="79" alt="F[c] := eta[g]*K[g]*eta[m]*K[t]*(V[m]*r[mp]-K[g]*K[m]*diff(x[c](t),t))/R[m]/r[mp]^2" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Q := [ seq( Q[i], i=1..Nq ) ];</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN104.gif" width="687" height="79" alt="Q := [eta[g]*K[g]*eta[m]*K[t]*(V[m]*r[mp]-K[g]*K[m]*diff(x[c](t),t))/R[m]/r[mp]^2-B[eq]*diff(x[c](t),t), -B[p1]*diff(alpha(t),t), -B[p2]*diff(theta(t),t)]" />
+</p>
+</dl><dl><a name="MapleAutoBookmark14" />
+<p align="left">
+<b><font color="#000000" size="5">Euler-Lagrange's Equations</font></b>
+</p>
+<p align="left">
+<font color="#000000">For a </font>
+<i><font color="#000000">N</font></i>
+<font color="#000000">-DOF system, the Lagrange's equations can be written:</font>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN105.gif" width="217" height="58" alt="Diff(Diff(L,qdot[i]),t)-Diff(L,q[i]) = Q[i]" align="middle" />
+<font color="#000000">&nbsp;&nbsp;for </font>
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mrow>
+    <mi>i</mi>
+    <mo>=</mo>
+    <mn>1</mn>
+  </mrow>
+</math>
+<font color="#000000">&nbsp;through </font>
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mi>N</mi>
+</math>
+</p>
+<p align="left">
+<font color="#000000">where:</font>
+</p>
+<p align="left">
+<font color="#000000">&nbsp;</font>
+<img src="images/DBPEN-LIN106.gif" width="31" height="32" alt="Q[i]" align="middle" />
+<font color="#000000">'s are special combinations of external forces and called the </font>
+<i><font color="#000000">generalized forces,</font></i>
+</p>
+<p align="left">
+<i><font color="#000000">&nbsp;</font></i>
+<img src="images/DBPEN-LIN107.gif" width="32" height="32" alt="q[1]" align="middle" />
+<font color="#000000">, ..., </font>
+<img src="images/DBPEN-LIN108.gif" width="35" height="32" alt="q[N]" align="middle" />
+<font color="#000000">, are </font>
+<i><font color="#000000">N </font></i>
+<font color="#000000">independent coordinates chosen to describe the system and called the </font>
+<i><font color="#000000">generalized coordinates</font></i>
+<font color="#000000">,</font>
+</p>
+<p align="left">
+<font color="#000000">&nbsp;and </font>
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mi>L</mi>
+</math>
+<font color="#000000">&nbsp;is the </font>
+<i><font color="#000000">Lagrangian</font></i>
+<font color="#000000">&nbsp;of the system.</font>
+</p>
+<p align="left">
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mi>L</mi>
+</math>
+<font color="#000000">&nbsp;is defined by:</font>
+</p>
+<p align="left">
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mrow>
+    <mi>L</mi>
+    <mo>=</mo>
+    <mrow>
+      <mi>T</mi>
+      <mo>-</mo>
+      <mi>U</mi>
+    </mrow>
+  </mrow>
+</math>
+</p>
+<p align="left">
+<font color="#000000">where </font>
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mi>T</mi>
+</math>
+<font color="#000000">&nbsp;is the total kinetic energy of the system and </font>
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mi>U</mi>
+</math>
+<font color="#000000">&nbsp;the total potential energy of the system.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_orig := lagrange_equations( T[T], V[T], q, Q ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">this is to display the EOM's</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_orig := collect( EOM_orig, { seq( diff( q[i], t$2 ), i=1..Nq ), seq( diff( q[i], t ), i=1..Nq ), seq( q[i], i=1..Nq ) } );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN109.gif" width="582" height="67" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN110.gif" width="602" height="45" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN111.gif" width="817" height="27" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN112.gif" width="601" height="67" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN113.gif" width="841" height="27" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN114.gif" width="772" height="63" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN115.gif" width="875" height="67" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN116.gif" width="618" height="63" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN117.gif" width="841" height="27" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN118.gif" width="813" height="63" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN119.gif" width="656" height="67" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN120.gif" width="745" height="63" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+<br />
+<img src="images/DBPEN-LIN121.gif" width="529" height="67" alt="EOM_orig := [(M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*diff(theta(t),t)^2+(2*M[p2]*sin(alpha(t))*cos(theta(t))*l[p2]+2*M[p2]*cos(alpha(t))*sin(theta(t))*l[p2])*d..." />
+</p>
+<p align="left">
+<font color="#000000">Express the Euler-Lagrange equations of motion as functions of the states:</font>
+</p>
+<p align="left">
+<font color="#000000">1) substitute (i.e. name) the acceleration states first! </font>
+</p>
+<p align="left">
+<font color="#000000">2) then substitute the velocity states!</font>
+</p>
+<p align="left">
+<font color="#000000">3) and only after, the position states, and the inputs!</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_states := subs( subs_Xqd, subs( subs_Xqdd, EOM_orig ) ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_states := subs( subs_Xq, subs_U, EOM_states );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN122.gif" width="509" height="63" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN123.gif" width="456" height="27" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN124.gif" width="787" height="29" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN125.gif" width="427" height="27" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN126.gif" width="810" height="27" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN127.gif" width="777" height="63" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN128.gif" width="502" height="29" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN129.gif" width="546" height="29" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN130.gif" width="810" height="27" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN131.gif" width="879" height="27" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN132.gif" width="872" height="29" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+<br />
+<img src="images/DBPEN-LIN133.gif" width="445" height="63" alt="EOM_states := [(M[p2]*sin(X[2])*cos(X[3])*l[p2]+M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[6]^2+(2*M[p2]*sin(X[2])*cos(X[3])*l[p2]+2*M[p2]*cos(X[2])*sin(X[3])*l[p2])*X[5]*X[6]+(M[p1]*sin(X[2])*l[p1]+M[p2]*cos(..." />
+</p>
+<dl><a name="MapleAutoBookmark15" />
+<p align="left">
+<b><font color="#000000" size="4">Linearization &nbsp;in the EOM's</font></b>
+<font color="#000000" size="4">&nbsp;</font>
+<b><font color="#000000" size="4">of the Trigonometric Functions</font></b>
+</p>
+<p align="left">
+<font color="#000000">Linearization of the equations of motion around the quiescent point of operation (in order to solve them).</font>
+</p>
+<p align="left">
+<font color="#000000">Here, linearization around the zero angles, i.e. for small-amplitude oscillations.</font>
+</p>
+<p align="left">
+<font color="#000000">Linearization around: alpha0 = 0, alpha_dot0 = 0, alpha1 = 0, and alpha_dot1 = 0</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_ser := EOM_states:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">Generalized series expansions of the trigonometric functions is used (for small angles).</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">for i from 1 to Nq do<br />
+&nbsp;&nbsp;for k from 1 to Np do<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EOM_ser[i] := subsop( 1 = convert( series( op( 1, EOM_ser[i] ), X[ k+1 ] ), polynom ), EOM_ser[i] );<br />
+&nbsp;&nbsp;end do:<br />
+&nbsp;&nbsp;EOM_ser[i] := simplify( EOM_ser[i] );<br />
+end do:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">EOM_ser;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN134.gif" width="796" height="63" alt="[Xd[4]*M[p2]+Xd[4]*M[c]+Xd[4]*M[h]+Xd[4]*M[p1]-M[p2]*l[p2]*Xd[6]-Xd[5]*M[p1]*l[p1]-Xd[5]*M[h]*L[p1]-M[p2]*l[p2]*Xd[5]-Xd[5]*M[p2]*L[p1]+X[2]*M[p2]*l[p2]*X[6]^2+X[2]*X[5]^2*M[p1]*l[p1]+X[2]*M[p2]*l[p2]*..." />
+<br />
+<img src="images/DBPEN-LIN135.gif" width="781" height="29" alt="[Xd[4]*M[p2]+Xd[4]*M[c]+Xd[4]*M[h]+Xd[4]*M[p1]-M[p2]*l[p2]*Xd[6]-Xd[5]*M[p1]*l[p1]-Xd[5]*M[h]*L[p1]-M[p2]*l[p2]*Xd[5]-Xd[5]*M[p2]*L[p1]+X[2]*M[p2]*l[p2]*X[6]^2+X[2]*X[5]^2*M[p1]*l[p1]+X[2]*M[p2]*l[p2]*..." />
+<br />
+<img src="images/DBPEN-LIN136.gif" width="715" height="29" alt="[Xd[4]*M[p2]+Xd[4]*M[c]+Xd[4]*M[h]+Xd[4]*M[p1]-M[p2]*l[p2]*Xd[6]-Xd[5]*M[p1]*l[p1]-Xd[5]*M[h]*L[p1]-M[p2]*l[p2]*Xd[5]-Xd[5]*M[p2]*L[p1]+X[2]*M[p2]*l[p2]*X[6]^2+X[2]*X[5]^2*M[p1]*l[p1]+X[2]*M[p2]*l[p2]*..." />
+<br />
+<img src="images/DBPEN-LIN137.gif" width="798" height="63" alt="[Xd[4]*M[p2]+Xd[4]*M[c]+Xd[4]*M[h]+Xd[4]*M[p1]-M[p2]*l[p2]*Xd[6]-Xd[5]*M[p1]*l[p1]-Xd[5]*M[h]*L[p1]-M[p2]*l[p2]*Xd[5]-Xd[5]*M[p2]*L[p1]+X[2]*M[p2]*l[p2]*X[6]^2+X[2]*X[5]^2*M[p1]*l[p1]+X[2]*M[p2]*l[p2]*..." />
+<br />
+<img src="images/DBPEN-LIN138.gif" width="786" height="29" alt="[Xd[4]*M[p2]+Xd[4]*M[c]+Xd[4]*M[h]+Xd[4]*M[p1]-M[p2]*l[p2]*Xd[6]-Xd[5]*M[p1]*l[p1]-Xd[5]*M[h]*L[p1]-M[p2]*l[p2]*Xd[5]-Xd[5]*M[p2]*L[p1]+X[2]*M[p2]*l[p2]*X[6]^2+X[2]*X[5]^2*M[p1]*l[p1]+X[2]*M[p2]*l[p2]*..." />
+<br />
+<img src="images/DBPEN-LIN139.gif" width="860" height="27" alt="[Xd[4]*M[p2]+Xd[4]*M[c]+Xd[4]*M[h]+Xd[4]*M[p1]-M[p2]*l[p2]*Xd[6]-Xd[5]*M[p1]*l[p1]-Xd[5]*M[h]*L[p1]-M[p2]*l[p2]*Xd[5]-Xd[5]*M[p2]*L[p1]+X[2]*M[p2]*l[p2]*X[6]^2+X[2]*X[5]^2*M[p1]*l[p1]+X[2]*M[p2]*l[p2]*..." />
+<br />
+<img src="images/DBPEN-LIN140.gif" width="792" height="29" alt="[Xd[4]*M[p2]+Xd[4]*M[c]+Xd[4]*M[h]+Xd[4]*M[p1]-M[p2]*l[p2]*Xd[6]-Xd[5]*M[p1]*l[p1]-Xd[5]*M[h]*L[p1]-M[p2]*l[p2]*Xd[5]-Xd[5]*M[p2]*L[p1]+X[2]*M[p2]*l[p2]*X[6]^2+X[2]*X[5]^2*M[p1]*l[p1]+X[2]*M[p2]*l[p2]*..." />
+<br />
+<img src="images/DBPEN-LIN141.gif" width="601" height="63" alt="[Xd[4]*M[p2]+Xd[4]*M[c]+Xd[4]*M[h]+Xd[4]*M[p1]-M[p2]*l[p2]*Xd[6]-Xd[5]*M[p1]*l[p1]-Xd[5]*M[h]*L[p1]-M[p2]*l[p2]*Xd[5]-Xd[5]*M[p2]*L[p1]+X[2]*M[p2]*l[p2]*X[6]^2+X[2]*X[5]^2*M[p1]*l[p1]+X[2]*M[p2]*l[p2]*..." />
+</p>
+<p align="left">
+</p>
+</dl><dl><a name="MapleAutoBookmark16" />
+<p align="left">
+<b><font color="#000000" size="4">Additional Insight: Inertia (or mass) Matrix: Fi</font></b>
+</p>
+<p align="left">
+<font color="#000000">The nonlinear system of equations resulting from the Lagrangian mechanics can be written in the following matrix form:</font>
+</p>
+<p align="left">
+<font color="#000000">F( q ) . qdd + G( q, qd ) . qd + H( q ) . q = L( q, qd, u )</font>
+</p>
+<p align="left">
+<font color="#000000">F, G, and H are called, respectively, the mass, damping, and stiffness matrices.</font>
+</p>
+<p align="left">
+<font color="#000000">They are symmetric in form.</font>
+</p>
+<p align="left">
+<font color="#000000">The inertia (a.k.a. mass) matrix, F, gives indications regarding the coupling existing in the system.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Fi := Matrix( Nq, Nq ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">for i from 1 to Nq do<br />
+&nbsp;&nbsp;for k from 1 to Nq do<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Fi[ i, k ] := simplify( diff( op( 1, EOM_states[i] ), Xd[k+Nq] ) );<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Fi[ i, k ] := collect( combine( Fi[ i, k ], trig ), cos );<br />
+&nbsp;&nbsp;end do;<br />
+end do:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">'F[i]' = Fi;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN142.gif" width="47" height="27" alt="F[i] = Matrix(%id = 137153196)" />
+<br />
+<img src="images/DBPEN-LIN143.gif" width="804" height="27" alt="F[i] = Matrix(%id = 137153196)" />
+<br />
+<img src="images/DBPEN-LIN144.gif" width="477" height="27" alt="F[i] = Matrix(%id = 137153196)" />
+<br />
+<img src="images/DBPEN-LIN145.gif" width="722" height="29" alt="F[i] = Matrix(%id = 137153196)" />
+<br />
+<img src="images/DBPEN-LIN146.gif" width="488" height="29" alt="F[i] = Matrix(%id = 137153196)" />
+</p>
+<p align="left">
+<font color="#000000">Linearization of the inertia matrix for small-displacements</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Fi_lin := Matrix( Nq, Nq ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">for i from 1 to Nq do<br />
+&nbsp;&nbsp;for k from 1 to Nq do<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Fi_lin[ i, k ] := Fi[ i, k ];<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Fi_lin[ i, k ] := convert( series( Fi_lin[ i, k ], X[ 2 ] ), polynom );<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Fi_lin[ i, k ] := subs( subs_XUzero, Fi_lin[ i, k ] );<br />
+&nbsp;&nbsp;end do; <br />
+end do:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">'F_lin' = Fi_lin;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN147.gif" width="67" height="20" alt="F_lin = Matrix(%id = 137153560)" />
+<br />
+<img src="images/DBPEN-LIN148.gif" width="540" height="27" alt="F_lin = Matrix(%id = 137153560)" />
+<br />
+<img src="images/DBPEN-LIN149.gif" width="729" height="29" alt="F_lin = Matrix(%id = 137153560)" />
+<br />
+<img src="images/DBPEN-LIN150.gif" width="184" height="29" alt="F_lin = Matrix(%id = 137153560)" />
+<br />
+<img src="images/DBPEN-LIN151.gif" width="339" height="29" alt="F_lin = Matrix(%id = 137153560)" />
+</p>
+</dl></dl><dl><a name="MapleAutoBookmark17" />
+<p align="left">
+<b><font color="#000000" size="5">Solving the Euler-Lagrange's Equations</font></b>
+</p>
+<p align="left">
+<font color="#000000">To solve the Euler-Lagrange's equations, they need to be linear.</font>
+</p>
+<dl><a name="MapleAutoBookmark18" />
+<p align="left">
+<b><font color="#000000" size="4">Reverse State Substitution for Pretty Display of the Solved EOM's</font></b>
+</p>
+<p align="left">
+<font color="#000000">only for pretty print</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">subs_Xq_rev := { seq( X[i] = q[i], i=1..Nq ) }:<br />
+subs_Xqd_rev := { seq( X[i+Nq] = qd[i], i=1..Nq ) }:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">subs_U_rev := { U[1] = V[m] }: <br />
+#subs_U_rev := { U[1] = F[c] }:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eom_collect_list := { seq( diff( q[i], t ), i=1..Nq ), seq( q[i], i=1..Nq ) };</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN152.gif" width="432" height="45" alt="eom_collect_list := {diff(theta(t),t), diff(alpha(t),t), diff(x[c](t),t), theta(t), x[c](t), alpha(t)}" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">if not assigned( J[p1] ) then<br />
+&nbsp;&nbsp;eom_collect_list := eom_collect_list union { J[p1] };<br />
+end if;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN153.gif" width="463" height="45" alt="eom_collect_list := {J[p1], diff(theta(t),t), diff(alpha(t),t), diff(x[c](t),t), theta(t), x[c](t), alpha(t)}" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">if not assigned( J[p2] ) then<br />
+&nbsp;&nbsp;eom_collect_list := eom_collect_list union { J[p2] };<br />
+end if;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN154.gif" width="494" height="45" alt="eom_collect_list := {J[p1], diff(theta(t),t), diff(alpha(t),t), diff(x[c](t),t), theta(t), x[c](t), J[p2], alpha(t)}" />
+</p>
+</dl><dl><a name="MapleAutoBookmark19" />
+<p align="left">
+<b><font color="#000000" size="4">Solution to the Non-Linear Equations of Motion</font></b>
+</p>
+<p align="left">
+<font color="#000000">Solve the non-linear form of the equations of motion for the states' second time derivatives</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Xqdd_solset_nl := solve( convert( EOM_states, set ), convert( Xqdd, set ) ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">assign( Xqdd_solset_nl );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">for i from 1 to Nq do <br />
+&nbsp;&nbsp;Xd_nl[i+Nq] := simplify( Xd[i+Nq] ):<br />
+&nbsp;&nbsp;unassign( 'Xd[i+Nq]' ):<br />
+end do:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">pretty display w.r.t. the named system states</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">for i from 1 to Nq do<br />
+&nbsp;&nbsp;Xd_nl[i+Nq] := simplify( subs( subs_U_rev, subs_Xq_rev, subs_Xqd_rev, Xd_nl[i+Nq] ) ):<br />
+end do:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">for i from 1 to Nq do<br />
+&nbsp;&nbsp;diff( qd[i], t ) = collect( Xd_nl[i+Nq], eom_collect_list );<br />
+end do:</font></b>
+</td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark20" />
+<p align="left">
+<b><font color="#000000" size="4">Solution to the Linearized EOM's</font></b>
+</p>
+<p align="left">
+<font color="#000000">Solve the linear form of the equations of motion for the states' second time derivatives</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Xqdd_solset_ser := solve( convert( EOM_ser, set ), convert( Xqdd, set ) ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">assign( Xqdd_solset_ser );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">Moreover, for small angles</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">subs_avsq_list := { X[Nq+2]^2 = 0, X[Nq+3]^2 = 0 }:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">for i from 1 to Nq do<br />
+&nbsp;&nbsp;Xd[i+Nq] := subs( subs_avsq_list, Xd[i+Nq] );<br />
+end:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">pretty display w.r.t. the named system states</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">for i from 1 to Nq do<br />
+&nbsp;&nbsp;diff( qd[i], t ) = collect( subs( subs_U_rev, subs_Xq_rev, subs_Xqd_rev, Xd[i+Nq] ), eom_collect_list );<br />
+end do;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN155.gif" width="389" height="63" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN156.gif" width="523" height="29" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN157.gif" width="713" height="45" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN158.gif" width="866" height="36" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN159.gif" width="504" height="29" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN160.gif" width="797" height="29" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN161.gif" width="839" height="31" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN162.gif" width="812" height="36" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN163.gif" width="671" height="45" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN164.gif" width="844" height="45" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN165.gif" width="866" height="36" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN166.gif" width="499" height="29" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN167.gif" width="857" height="29" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN168.gif" width="624" height="45" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN169.gif" width="779" height="29" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN170.gif" width="188" height="27" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN171.gif" width="723" height="36" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN172.gif" width="712" height="36" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN173.gif" width="747" height="29" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN174.gif" width="642" height="29" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN175.gif" width="656" height="36" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN176.gif" width="866" height="36" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+<br />
+<img src="images/DBPEN-LIN177.gif" width="482" height="29" alt="diff(x[c](t),`$`(t,2)) = (-(-2*theta(t)^2*alpha(t)*R[m]*r[mp]^2*M[p2]^2*L[p1]^2*l[p2]^2+(2*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]*l[p1]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]*l[p2]^2*L[p1])*theta(t)+(2*M[p2]*l[p..." />
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN178.gif" width="862" height="63" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN179.gif" width="715" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN180.gif" width="631" height="45" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN181.gif" width="866" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN182.gif" width="799" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN183.gif" width="770" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN184.gif" width="815" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN185.gif" width="663" height="37" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN186.gif" width="779" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN187.gif" width="864" height="45" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN188.gif" width="565" height="45" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN189.gif" width="866" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN190.gif" width="568" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN191.gif" width="678" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN192.gif" width="791" height="45" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN193.gif" width="866" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN194.gif" width="575" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN195.gif" width="643" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN196.gif" width="720" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN197.gif" width="652" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN198.gif" width="698" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN199.gif" width="827" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN200.gif" width="810" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN201.gif" width="810" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN202.gif" width="866" height="36" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+<br />
+<img src="images/DBPEN-LIN203.gif" width="546" height="29" alt="diff(alpha(t),`$`(t,2)) = (-(2*theta(t)^3*M[p2]^2*l[p2]^2*L[p1]*R[m]*r[mp]^2*alpha(t)^2-2*theta(t)^2*alpha(t)*M[p2]^2*L[p1]*l[p2]^2*R[m]*r[mp]^2+(2*l[p1]*M[p2]*l[p2]^2*R[m]*r[mp]^2*M[p1]-2*M[p1]*R[m]*r..." />
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN204.gif" width="360" height="63" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN205.gif" width="808" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN206.gif" width="865" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN207.gif" width="737" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN208.gif" width="689" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN209.gif" width="768" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN210.gif" width="780" height="45" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN211.gif" width="866" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN212.gif" width="775" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN213.gif" width="643" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN214.gif" width="713" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN215.gif" width="846" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN216.gif" width="687" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN217.gif" width="840" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN218.gif" width="648" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN219.gif" width="866" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN220.gif" width="851" height="45" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN221.gif" width="844" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN222.gif" width="714" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN223.gif" width="842" height="45" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN224.gif" width="812" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN225.gif" width="840" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN226.gif" width="694" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN227.gif" width="732" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN228.gif" width="858" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN229.gif" width="775" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN230.gif" width="848" height="45" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN231.gif" width="556" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN232.gif" width="779" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN233.gif" width="195" height="27" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN234.gif" width="688" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN235.gif" width="772" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN236.gif" width="712" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN237.gif" width="841" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN238.gif" width="849" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN239.gif" width="834" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN240.gif" width="746" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN241.gif" width="702" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN242.gif" width="685" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN243.gif" width="819" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN244.gif" width="662" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN245.gif" width="727" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN246.gif" width="730" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN247.gif" width="735" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN248.gif" width="727" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN249.gif" width="861" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN250.gif" width="764" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN251.gif" width="866" height="36" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+<br />
+<img src="images/DBPEN-LIN252.gif" width="482" height="29" alt="diff(theta(t),`$`(t,2)) = (1/l[p2]^2*(2*theta(t)^3*M[p2]^3*l[p2]^3*L[p1]*R[m]*r[mp]^2*alpha(t)^2+(-2*M[p2]^3*L[p1]*l[p2]^3*R[m]*r[mp]^2-2*M[p1]*l[p1]*R[m]*r[mp]^2*M[p2]^2*l[p2]^2*L[p1]+2*M[p2]^2*l[p2]^..." />
+</p>
+</dl></dl><dl><a name="MapleAutoBookmark21" />
+<p align="left">
+<b><font color="#000000" size="5">Determine the System State-Space Matrices: A, B, C, and D</font></b>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">A_ss := Matrix( Nx, Nx ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">A_ss := deriveA( Xqdd, A_ss, Nq, subs_XUzero ):<br />
+A = A_ss;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<img src="images/DBPEN-LIN253.gif" width="43" height="20" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN254.gif" width="138" height="20" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN255.gif" width="138" height="20" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN256.gif" width="138" height="20" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN257.gif" width="595" height="63" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN258.gif" width="563" height="61" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN259.gif" width="772" height="63" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN260.gif" width="576" height="61" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN261.gif" width="614" height="63" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN262.gif" width="803" height="63" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN263.gif" width="576" height="61" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN264.gif" width="736" height="63" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN265.gif" width="576" height="61" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN266.gif" width="601" height="63" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN267.gif" width="827" height="61" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN268.gif" width="835" height="29" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN269.gif" width="883" height="31" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN270.gif" width="759" height="29" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN271.gif" width="741" height="31" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN272.gif" width="817" height="29" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN273.gif" width="825" height="29" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN274.gif" width="715" height="31" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN275.gif" width="580" height="29" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN276.gif" width="844" height="61" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN277.gif" width="866" height="29" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN278.gif" width="834" height="31" alt="A = Matrix(%id = 137153904)" />
+<br />
+<img src="images/DBPEN-LIN279.gif" width="580" height="61" alt="A = Matrix(%id = 137153904)" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">B_ss := Matrix( Nx, Nu ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">B_ss := deriveB( Xqdd, B_ss, Nq, subs_XUzero ):<br />
+B = B_ss;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN280.gif" width="686" height="297" alt="B = Matrix(%id = 137404524)" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">C_ss := IdentityMatrix( Nq, Nx ):<br />
+C = C_ss;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN281.gif" width="214" height="80" alt="C = Matrix(%id = 137405124)" />
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">D_ss := Matrix( Ny, Nu, 0 ):<br />
+D = D_ss;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="center">
+<img src="images/DBPEN-LIN282.gif" width="82" height="80" alt="D = Matrix(%id = 137405556)" />
+</p>
+<p align="left">
+</p>
+</dl><p align="left">
+</p>
+<dl><a name="MapleAutoBookmark22" />
+<p align="left">
+<b><font color="#000000" size="5">Write A, B, C, and D to a Matlab file</font></b>
+</p>
+<p align="left">
+<font color="#000000">Save the state-space matrices A, B, C and D to a MATLAB file.</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Matlab_File_Name := "DBIP_ABCD_eqns.m":</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">unassign variables, when necessary, for those present in the "Matlab_Notations" substitution set</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">if assigned( B[eq] ) then<br />
+&nbsp;&nbsp;unassign( 'B[eq]' );<br />
+end if;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">if assigned( B[p1] ) then<br />
+&nbsp;&nbsp;unassign( 'B[p1]' );<br />
+end if;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">if assigned( J[p1] ) then<br />
+&nbsp;&nbsp;unassign( 'J[p1]' );<br />
+end if;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">if assigned( B[p2] ) then<br />
+&nbsp;&nbsp;unassign( 'B[p2]' );<br />
+end if;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">if assigned( J[p2] ) then<br />
+&nbsp;&nbsp;unassign( 'J[p2]' );<br />
+end if;</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<font color="#000000">substitution set containing a notation consistent with that used in the MATLAB design script(s)</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Matlab_Notations := { <br />
+M[c] = Mc, M[h] = Mh, B[eq] = Beq, K[t] = Kt, r[mp] = r_mp, eta[m] = Eff_m, eta[g]=Eff_g, K[g]=Kg, K[m]=Km, R[m]=Rm, M[p1] = Mp1, L[p1] = Lp1, l[p1] = lp1, J[p1] = Jp1, B[p1] = Bp1, &nbsp;<br />
+M[p2] = Mp2, L[p2] = Lp2, l[p2] = lp2, J[p2] = Jp2, B[p2] = Bp2 }:</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">Experiment_Name := "Double Inverted Pendulum":</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">write_ABCD_to_Mfile( Matlab_File_Name, Experiment_Name, Matlab_Notations, A_ss, B_ss, C_ss, D_ss );</font></b>
+</td></tr>
+</table>
+</p>
+</dl><dl><a name="MapleAutoBookmark23" />
+<p align="left">
+<b><font color="#000000" size="5">Procedure Printing</font></b>
+</p>
+<p align="left">
+<font color="#000000">default:</font>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">#interface( verboseproc = 1 );</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"><b><font color="#FF0000">eval( lagrange_equations ):</font></b>
+</td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+<p align="left">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td valign="top"><tt>&gt; &nbsp;&nbsp;</tt></td>
+<td width="100%" valign="top"></td></tr>
+</table>
+</p>
+</dl><p align="left">
+<a href="DBPEN-LIN.html#Description">Click here to go back to top: Description Section</a><font color="#000000">.</font>
+</p>
+</basefont>
+</body>
+</html>
