@@ -1,6 +1,3 @@
-#Theodore Bounds
-#Inverted Double Pendulum Control Optimization
-#Adapted from code by Everton Colling
 import math
 import matplotlib
 
