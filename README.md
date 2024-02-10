@@ -12,7 +12,7 @@ This project, carried out within the 4th year of Industrial Computing and Automa
 
 From March 29, 2023, to May 15, 2023, the project team undertook a comprehensive exploration of various control strategies and simulation environments. Led by a dedicated group of individuals, the project focused on bridging theoretical concepts with practical implementations to tackle the inherent complexities of the DIP system.
 
-## Key Features
+## Technical Details
 
 - **LabVIEW Simulation with LQ Controller**: Implementation of a LabVIEW simulation featuring an LQ controller on Quanser's DIP platform, showcasing effective stabilization despite significant disturbances.
 - **Python-LabVIEW Integration**: Seamless integration between Python-based swing-up control simulation and LabVIEW through a CSV data conversion block diagram, facilitating reusable data exchange between platforms.
