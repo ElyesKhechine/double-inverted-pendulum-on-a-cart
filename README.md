@@ -6,11 +6,11 @@
 
 ## Introduction
 
-This project, carried out within the 4th year of Industrial Computing and Automation (IIA4) at INSAT, delves into the modeling and optimal control of a complex dynamical system. Utilizing a blend of simulation tools, optimization techniques, and reinforcement learning algorithms, the project aims to achieve stability and control in a challenging physical setup.
+This project delves into the modeling and optimal control of a Double Inverted Pendulum (DIP) system. Utilizing a blend of simulation tools, optimization techniques, and reinforcement learning algorithms, the project aims to achieve stability and control in a challenging physical setup.
 
 ## Project Scope
 
-From March 29, 2023, to May 15, 2023, the project team undertook a comprehensive exploration of various control strategies and simulation environments. Led by a dedicated group of individuals, the project focused on bridging theoretical concepts with practical implementations to tackle the inherent complexities of the DIP system.
+From March 29, 2023, to May 15, 2023, the project was carried out within the 2nd semester of the 4th year of Industrial Computing and Automation (IIA4) at INSAT. Led by a dedicated group of individuals, the project focused on bridging theoretical concepts with practical implementations to tackle the inherent complexities of the DIP system.
 
 ## Technical Details
 
@@ -35,7 +35,7 @@ From March 29, 2023, to May 15, 2023, the project team undertook a comprehensive
 
 ## Project Presentation
 
-For a detailed overview of the project, methodologies, findings, and outcomes, please refer to the [Project Presentation](https://www.canva.com/design/DAF2yUke4ZU/vqSSfAI3ZlYJbCBc3cXqUg/view?utm_content=DAF2yUke4ZU&utm_campaign=designshare&utm_medium=link&utm_source=editor).
+For a detailed overview of the project, methodologies, findings, and outcomes, please refer to the [project presentation](https://www.canva.com/design/DAF2yUke4ZU/vqSSfAI3ZlYJbCBc3cXqUg/view?utm_content=DAF2yUke4ZU&utm_campaign=designshare&utm_medium=link&utm_source=editor).
 
 ## Project Report
 
